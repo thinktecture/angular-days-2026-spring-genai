@@ -63,7 +63,9 @@ export class Todo implements OnInit {
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt }
     ];
-    return this.llmService.generateResponse(messages, []);
+    return this.llmService.generateResponse(messages, [], {
+      measurePerformance: true,
+    });
   }
 
   async* inferPromptApi(userPrompt: string): AsyncGenerator<string> {
