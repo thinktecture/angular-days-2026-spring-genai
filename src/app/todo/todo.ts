@@ -47,6 +47,9 @@ export class Todo implements OnInit {
       reply += chunk;
       this.reply.set(reply);
     }
+    this.llmService.executeToolCalls(reply, {
+      addTodo: (args: { text: string }) => this.addTodo(args.text),
+    });
   }
 
   inferTransformersJs(userPrompt: string) {
@@ -63,7 +66,7 @@ export class Todo implements OnInit {
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt }
     ];
-    return this.llmService.generateResponse(messages, [], {
+    return this.llmService.generateResponse(messages, [TODO_TOOL], {
       measurePerformance: true,
     });
   }
